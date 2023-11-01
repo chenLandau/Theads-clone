@@ -162,7 +162,9 @@ const Wrapper = styled.section`
   .text-area {
     max-height: 80%;
     resize: none; /* Prevents resizing */
-    height: 100px;
+    /* height: 100px; */
+    height: auto;
+    overflow: "hidden";
     width: 90%;
   }
   .post-btn {

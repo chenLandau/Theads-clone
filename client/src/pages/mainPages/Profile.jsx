@@ -26,7 +26,6 @@ const Profile = () => {
     fetchData();
   }, [username]);
   if (loading || !selectedUser) return <Loading />;
-  console.log({ user });
 
   const isAuthorizedUser = user._id === selectedUser._id;
   return (
@@ -44,7 +43,7 @@ const Profile = () => {
               <InteractivePostCard
                 key={post._id}
                 {...post}
-                isAuthorizedUser={isAuthorizedUser}
+                // isAuthorizedUser={isAuthorizedUser}
               />
             );
           })}

@@ -17,10 +17,13 @@ import {
   getPostLikes,
   likePostReply,
   dislikePostReply,
+  deleteReply,
 } from "../controllers/postsController.js";
 import {
   validateNewPostInput,
   validateIdParam,
+  validateDislikeReplyInput,
+  validateLikeReplyInput,
   validateLikePostInput,
   validatePostIdQuery,
   validateDeletePostInput,
@@ -31,10 +34,12 @@ router.route("/forYou").get(getForYouPosts);
 router.route("/following").get(getFollowingPosts);
 router.route("/user-posts").get(getUserPosts);
 router.route("/").post(upload.single("file"), validateNewPostInput, createPost);
-router.route("/addPostReply").post(addPostReply);
-router.route("/likePostReply").put(likePostReply);
-router.route("/dislikePostReply").put(dislikePostReply);
-
+router.route("/addPostReply").post(validatePostIdQuery, addPostReply);
+router.route("/likePostReply").put(validateLikeReplyInput, likePostReply);
+router
+  .route("/dislikePostReply")
+  .put(validateDislikeReplyInput, dislikePostReply);
+router.route("/delete-reply").delete(deleteReply);
 router.route("/").get(validatePostIdQuery, getSinglePost);
 router
   .route("/")

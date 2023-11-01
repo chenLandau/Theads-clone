@@ -16,8 +16,8 @@ const userSlice = createSlice({
       const { following, targetUserId, targetUserFollowersAmount } =
         action.payload;
       state.FollowedByAuth = following;
-      if (targetUserId === state.selectedUser.user._id) {
-        state.selectedUser.user.followersAmount = targetUserFollowersAmount;
+      if (targetUserId === state.selectedUser._id) {
+        state.selectedUser.followersAmount = targetUserFollowersAmount;
       }
     },
     updateAuthUser: (state, action) => {

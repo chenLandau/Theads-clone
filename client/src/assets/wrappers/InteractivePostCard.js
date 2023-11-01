@@ -1,6 +1,6 @@
 import styled from "styled-components";
 const Wrapper = styled.section`
-  .thread-card-container {
+  .card-container {
     /* border: 1px solid red; */
     width: 98%;
     display: flex;

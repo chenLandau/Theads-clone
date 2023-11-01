@@ -92,7 +92,14 @@ export const dislikePostReply = (replyId) => async (dispatch) => {
     dispatch(actions.likePostFailure(error));
   }
 };
-// export const updateProfilePosts = (userId) => async (dispatch) => {
-//   const response = await customFetch.get(`/posts/user-posts?userId=${userId}`);
-//   dispatch(actions.updateProfileSuccess(response.data.posts));
-// };
+
+export const deleteReply = (replyId) => async (dispatch) => {
+  try {
+    const { data } = await customFetch.delete(
+      `./posts/delete-reply?replyId=${replyId}`
+    );
+    dispatch(actions.deleteReplySuccess(data));
+  } catch (error) {
+    console.log(error);
+  }
+};

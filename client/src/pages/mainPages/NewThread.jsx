@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Wrapper from "../../assets/wrappers/NewThread";
 import { useDashboardContext } from "./DashboardLayout";
 import profileImg from "../../assets/images/default-profile-pic.jpg";
@@ -13,7 +13,6 @@ const NewThread = () => {
   const [text, setText] = useState("");
   const [file, setFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
-
   const handleInputChange = (e) => {
     setText(e.target.value);
   };

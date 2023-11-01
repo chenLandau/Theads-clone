@@ -33,7 +33,7 @@ const Wrapper = styled.section`
     }
   }
 
-  .card-container {
+  .options-card-container {
     /* justify-content: space-between; */
     background: rgba(255, 255, 255, 1);
     position: fixed;

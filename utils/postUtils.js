@@ -28,9 +28,7 @@ export const getModifiedSinglePost = async (post, userId) => {
   // const repliesWithInfo = await repliesWithUserInfo(post.replies);
   try {
     const user = await User.findById(post.createdBy);
-    const likedByUsers = await User.find({ _id: { $in: post.likes } }).select(
-      "user_name name avatar"
-    );
+    const isAuthorizedUser = userId === user._id.toString();
 
     if (user) {
       return {
@@ -43,6 +41,7 @@ export const getModifiedSinglePost = async (post, userId) => {
         repliesAmount: post.replies.length,
         likesAmount: post.likes.length,
         isLikedByUser: isLikedByUser,
+        isAuthorizedUser: isAuthorizedUser,
         timePassed: convertTimePassed(post.createdAt),
       };
     }
@@ -51,10 +50,10 @@ export const getModifiedSinglePost = async (post, userId) => {
   }
 };
 
-export const getModifiedReplies = async (replies) => {
+export const getModifiedReplies = async (replies, userId) => {
   const modifiedReplies = [];
   for (const reply of replies) {
-    const modifiedReply = await getModifiedSingleReply(reply);
+    const modifiedReply = await getModifiedSingleReply(reply, userId);
     modifiedReplies.push(modifiedReply);
   }
   return modifiedReplies;
@@ -63,6 +62,7 @@ export const getModifiedSingleReply = async (reply, userId) => {
   try {
     const user = await User.findById(reply.createdBy);
     const isLikedByUser = reply.likes.includes(userId);
+    const isAuthorizedUser = userId === user._id.toString();
 
     if (user) {
       return {
@@ -73,6 +73,7 @@ export const getModifiedSingleReply = async (reply, userId) => {
         avatar: user.avatar,
         likesAmount: reply.likes.length,
         isLikedByUser: isLikedByUser,
+        isAuthorizedUser: isAuthorizedUser,
         timePassed: convertTimePassed(reply.createdAt),
       };
     }

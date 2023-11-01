@@ -56,7 +56,7 @@ const InteractivePostCard = (post) => {
 
   return (
     <Wrapper>
-      <section className="thread-card-container">
+      <section className="card-container">
         <div className="img-container">
           <img src={avatar || profileImg} className="big-img" />
           <div className="thread-card-bar"></div>
@@ -83,7 +83,8 @@ const InteractivePostCard = (post) => {
               )}
               {showOptionMenu && (
                 <OptionsMenuCard
-                  postId={_id}
+                  type={"post"}
+                  id={_id}
                   showOptionMenu={showOptionMenu}
                   setShowOptionMenu={setShowOptionMenu}
                 />

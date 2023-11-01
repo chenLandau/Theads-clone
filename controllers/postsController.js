@@ -68,7 +68,7 @@ export const createPost = async (req, res) => {
     const response = await cloudinary.v2.uploader.upload(req.file.path);
     await fs.unlink(req.file.path);
     post.postImage = response.secure_url;
-    post.postImageId = response.public_id;
+    post.postImagePublicId = response.public_id;
   }
   const _post = await Post.create(post);
   const user = await User.findByIdAndUpdate(req.userId, {
@@ -92,7 +92,7 @@ export const getSinglePost = async (req, res) => {
   }).sort({
     createdAt: -1,
   });
-  const modifiedReplies = await getModifiedReplies(replies);
+  const modifiedReplies = await getModifiedReplies(replies, req.userId);
   const modifiedPost = await getModifiedSinglePost(requestedPost, req.userId);
   res
     .status(StatusCodes.OK)
@@ -102,23 +102,37 @@ export const getSinglePost = async (req, res) => {
 export const deletePost = async (req, res) => {
   const postId = req.query.postId;
   const removedPost = await Post.findByIdAndDelete(postId); //check if there is postImg and delete from cloudinary
-  const updatedCurrentUser = await User.findByIdAndUpdate(
-    req.userId,
-    {
-      $pull: { posts: postId },
-    },
-    { new: true }
-  );
-
+  await User.findByIdAndUpdate(req.userId, { $pull: { posts: postId } });
+  await Reply.deleteMany({ _id: { $in: removedPost.replies } });
+  if (removedPost.postImage) {
+    const response = await cloudinary.uploader.destroy(
+      removedPost.postImagePublicId
+    );
+  }
   const posts = await Post.find({ createdBy: req.userId }).sort({
     createdAt: -1,
   });
   const modifiedPosts = await getModifiedPosts(posts, req.userId);
 
   if (!removedPost) throw new NotFoundError(`no post with id ${postId}`);
-  res
-    .status(StatusCodes.OK)
-    .json({ massage: "post deleted", posts: modifiedPosts });
+  res.status(StatusCodes.OK).json({
+    massage: "post deleted",
+    posts: modifiedPosts,
+  });
+};
+export const deleteReply = async (req, res) => {
+  const replyId = req.query.replyId;
+  const removedReply = await Reply.findByIdAndDelete(replyId); //check if there is postImg and delete from cloudinary
+  if (!removedReply) throw new NotFoundError(`no reply with id ${replyId}`);
+  const updatedPost = await Post.findByIdAndUpdate(removedReply.postId, {
+    $pull: { replies: replyId },
+  });
+  const modifiedPost = await getModifiedSinglePost(updatedPost, req.userId);
+
+  res.status(StatusCodes.OK).json({
+    updatedPost: modifiedPost,
+    replyId: removedReply._id,
+  });
 };
 export const addPostReply = async (req, res) => {
   const postId = req.query.postId;
@@ -132,11 +146,6 @@ export const addPostReply = async (req, res) => {
 
   const updatedPost = await Post.findByIdAndUpdate(
     postId,
-    { $push: { replies: _reply._id } },
-    { new: true }
-  );
-  const updatedUser = await User.findByIdAndUpdate(
-    userId,
     { $push: { replies: _reply._id } },
     { new: true }
   );

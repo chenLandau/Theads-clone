@@ -12,3 +12,4 @@ export { default as UserProfileLink } from "./UserProfileLink.jsx";
 export { default as BasicPostCard } from "./BasicPostCard.jsx";
 export { default as AddReply } from "./AddReply.jsx";
 export { default as ReplyCard } from "./ReplyCard.jsx";
+export { default as OptionsMenuCard } from "./OptionsMenuCard.jsx";

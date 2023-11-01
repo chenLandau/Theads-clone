@@ -29,7 +29,7 @@ import { v2 as cloudinary } from "cloudinary";
 // });
 
 cloudinary.config({
-  cloud_name: "du2gz2b2a",
+  cloud_name: process.env.CLOUD_NAME,
   api_key: "796315738237886",
   api_secret: "QlBtHgBxxY7y6eAN6P7NF7-rMlo",
 });

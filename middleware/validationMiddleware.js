@@ -3,6 +3,7 @@ import { BadRequestError, NotFoundError } from "../errors/customErrors.js";
 import mongoose from "mongoose";
 import User from "../models/UserModel.js";
 import Post from "../models/PostModel.js";
+import Reply from "../models/ReplyModel.js";
 const withValidationErrors = (validateValues) => {
   return [
     validateValues,
@@ -105,6 +106,28 @@ export const validateLikePostInput = withValidationErrors([
       }
     }),
 ]);
+export const validateLikeReplyInput = withValidationErrors([
+  query("replyId")
+    .notEmpty()
+    .custom(async (replyId, { req }) => {
+      const userId = req.userId;
+      const reply = await Reply.findById(replyId);
+      if (reply.likes.includes(userId)) {
+        throw new BadRequestError("You have already liked this post");
+      }
+    }),
+]);
+export const validateDislikeReplyInput = withValidationErrors([
+  query("replyId")
+    .notEmpty()
+    .custom(async (replyId, { req }) => {
+      const userId = req.userId;
+      const reply = await Reply.findById(replyId);
+      if (!reply.likes.includes(userId)) {
+        throw new BadRequestError("Reply already liked by auth");
+      }
+    }),
+]);
 export const validatePostIdQuery = withValidationErrors([
   query("postId")
     .notEmpty()
@@ -115,14 +138,23 @@ export const validatePostIdQuery = withValidationErrors([
       }
     }),
 ]);
-// export const validateTargetUserInput = withValidationErrors([
-//   query("username")
-//     .notEmpty()
-//     .custom(async (username, { req }) => {
-//       const targetUser = await User.findById(targetUserId);
-//       if (!targetUser) throw new BadRequestError("User not found");
-//     }),
-// ]);
+export const validateTargetUsername = withValidationErrors([
+  query("username")
+    .notEmpty()
+    .custom(async (username, { req }) => {
+      const targetUser = await User.findOne({ user_name: username });
+      if (!targetUser) throw new BadRequestError("User not found");
+    }),
+]);
+export const validateTargetUserId = withValidationErrors([
+  query("targetUserId")
+    .notEmpty()
+    .custom(async (targetUserId, { req }) => {
+      const targetUser = await User.findById(targetUserId);
+      if (!targetUser) throw new BadRequestError("User not found");
+    }),
+]);
+
 export const validateFollowUserInput = withValidationErrors([
   query("targetUserId")
     .notEmpty()

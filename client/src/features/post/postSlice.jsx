@@ -37,6 +37,7 @@ const postsSlice = createSlice({
   reducers: {
     fetchPostsSuccess: (state, action) => {
       const { displayMode, posts } = action.payload;
+      state.displayMode = DisplayPostMode.PROFILE;
       if (displayMode === DisplayPostMode.PROFILE) state.profilePosts = posts;
     },
     setForYouPosts: (state, action) => {
@@ -87,9 +88,20 @@ const postsSlice = createSlice({
       const { newPost } = action.payload;
       state.profilePosts = [...state.profilePosts, newPost];
     },
+    deleteReplySuccess: (state, action) => {
+      const { updatedPost, replyId } = action.payload;
+      console.log(action.payload);
+      const { post, replies } = state.currentPost;
+      const updatedReplies = replies.filter((reply) => reply._id !== replyId);
+
+      state.currentPost = {
+        ...state.currentPost,
+        post: updatedPost,
+        replies: [...updatedReplies],
+      };
+    },
     addReplySuccess: (state, action) => {
       const { updatedPost, reply } = action.payload;
-      console.log(action.payload);
       const updatePosts = (posts) => {
         return posts.map((thread) => {
           if (thread._id === updatedPost._id) {
@@ -103,7 +115,7 @@ const postsSlice = createSlice({
       } else if (state.displayMode === DisplayPostMode.PROFILE) {
         state.profilePosts = updatePosts(state.profilePosts);
       } else {
-        const { post, replies } = state.currentPost;
+        const { replies } = state.currentPost;
         const updatedReplies = [...replies, reply];
         state.currentPost = {
           ...state.currentPost,

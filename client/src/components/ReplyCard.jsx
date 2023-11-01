@@ -1,10 +1,9 @@
-import React from "react";
-import UserProfileLink from "./UserProfileLink";
+import React, { useState } from "react";
+import { UserProfileLink, OptionsMenuCard } from "./index";
 import Wrapper from "../assets/wrappers/BasicPostCard";
-import { Heart } from "react-feather";
+import { MoreHorizontal, Heart } from "react-feather";
 import { likePostReply, dislikePostReply } from "../thunks/postsThunks";
 import { useDispatch } from "react-redux";
-
 const ReplyCard = ({ reply }) => {
   const {
     _id,
@@ -14,9 +13,11 @@ const ReplyCard = ({ reply }) => {
     timePassed,
     content,
     isLikedByUser,
+    isAuthorizedUser,
     likesAmount,
   } = reply;
   const dispatch = useDispatch();
+  const [showOptionMenu, setShowOptionMenu] = useState(false);
 
   const handleLikeClick = async () => {
     if (!isLikedByUser) {
@@ -24,6 +25,9 @@ const ReplyCard = ({ reply }) => {
     } else {
       dispatch(dislikePostReply(_id));
     }
+  };
+  const toggleOptionsMenu = () => {
+    setShowOptionMenu(true);
   };
   return (
     <Wrapper>
@@ -34,7 +38,20 @@ const ReplyCard = ({ reply }) => {
         <div className="container-3">
           <div className="thread-header">
             <UserProfileLink username={username} userId={createdBy} />
-            <p>{timePassed}</p>
+            <div className="container-4">
+              {showOptionMenu && (
+                <OptionsMenuCard
+                  type={"reply"}
+                  id={_id}
+                  showOptionMenu={showOptionMenu}
+                  setShowOptionMenu={setShowOptionMenu}
+                />
+              )}
+              <p>{timePassed}</p>
+              {isAuthorizedUser && (
+                <MoreHorizontal className="icon" onClick={toggleOptionsMenu} />
+              )}
+            </div>
           </div>
           <div className="reply-body">
             <div className="thread-body">

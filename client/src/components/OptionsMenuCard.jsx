@@ -1,10 +1,10 @@
 import React from "react";
 import Wrapper from "../assets/wrappers/OptionsCardContainer";
-import { deletePost } from "../thunks/postsThunks";
+import { deletePost, deleteReply } from "../thunks/postsThunks";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-const OptionsMenuCard = ({ postId, showOptionMenu, setShowOptionMenu }) => {
+const OptionsMenuCard = ({ type, id, showOptionMenu, setShowOptionMenu }) => {
   const dispatch = useDispatch();
   const handleCancelClick = () => {
     setShowOptionMenu(false);
@@ -12,9 +12,14 @@ const OptionsMenuCard = ({ postId, showOptionMenu, setShowOptionMenu }) => {
 
   const handleDeleteClick = () => {
     try {
-      dispatch(deletePost(postId));
+      if (type === "post") {
+        dispatch(deletePost(id));
+        window.location.href = "/threads";
+      } else if (type === "reply") {
+        dispatch(deleteReply(id));
+      }
       setShowOptionMenu(false);
-      toast.success("Post deleted successfully");
+      toast.success(`${type} deleted successfully`);
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -29,15 +34,14 @@ const OptionsMenuCard = ({ postId, showOptionMenu, setShowOptionMenu }) => {
         }
       >
         <div className="card-layout" />
-        <div className="card-container">
+        <div className="options-card-container">
           <div className="text-container">
-            <p className="title">delete post?</p>
+            <p className="title">delete {type}?</p>
             <p className="text">
-              If you delete this post, you won't be able to restore it.
+              If you delete this {type}, you won't be able to restore it.
             </p>
           </div>
           <div className="btn-container">
-            {/* <Form method="post" action={`delete-post/${postId}`}> */}
             <button
               type="submit"
               className="btn delete-btn"
@@ -45,7 +49,6 @@ const OptionsMenuCard = ({ postId, showOptionMenu, setShowOptionMenu }) => {
             >
               delete
             </button>
-            {/* </Form> */}
             <button type="button" className="btn" onClick={handleCancelClick}>
               cancel
             </button>

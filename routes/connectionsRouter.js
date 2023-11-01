@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-  // validateTargetUserInput,
+  validateTargetUserId,
   validateFollowUserInput,
   validateUnfollowUserInput,
 } from "../middleware/validationMiddleware.js";
@@ -13,13 +13,13 @@ import {
 const router = Router();
 router.patch(
   "/follow-user",
-  // validateTargetUserInput,
+  validateTargetUserId,
   validateFollowUserInput,
   followUser
 );
 router.patch(
   "/unfollow-user",
-  // validateTargetUserInput,
+  validateTargetUserId,
   validateUnfollowUserInput,
   unfollowUser
 );

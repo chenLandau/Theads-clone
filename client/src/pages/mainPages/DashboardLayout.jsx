@@ -24,8 +24,6 @@ const DashboardContext = createContext();
 
 const DashboardLayout = () => {
   const { user } = useLoaderData();
-  console.log(user);
-
   const [showNewThread, setShowNewThread] = useState(false);
   const navigation = useNavigation();
   const isPageLoading = navigation.state === "loading";
