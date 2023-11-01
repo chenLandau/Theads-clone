@@ -43,18 +43,35 @@ const Wrapper = styled.section`
     border: none;
     border-radius: 0.25rem;
     background: var(--lightgray);
-    /* .icon {
-      color: white;
-    } */
   }
 
-  /* .icon:hover {
-    cursor: pointer;
-    font-size: 30px;
-    color: var(--black);
-  } */
   @media (min-width: 992px) {
-    display: none;
+    min-height: 100%;
+    height: 100vh;
+    width: 7vw;
+    left: 13vw;
+    position: fixed;
+    .nav-center {
+      display: grid;
+      width: 7vw;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-icon-container,
+    .nav-link {
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 7vw;
+      height: var(--nav-height);
+      background: transparent;
+      .active {
+        .icon {
+          color: black;
+        }
+      }
+    }
   }
 `;
 

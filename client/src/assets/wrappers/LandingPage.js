@@ -1,8 +1,9 @@
 import styled from "styled-components";
 const Wrapper = styled.section`
   .main-container {
-    padding-top: 2rem;
-    padding-left: 5rem;
+    padding-top: 10%;
+    display: grid;
+    justify-content: center;
   }
   .links-container {
     display: grid;

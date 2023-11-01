@@ -25,16 +25,15 @@ const Wrapper = styled.section`
     animation: spinner 0.6s linear infinite;
   }
   @media (min-width: 992px) {
+    width: 60vw;
     .container {
-      width: calc(97vw - var(--sidebar-width));
-      margin-left: var(--sidebar-width);
+      width: 60vw;
     }
     .profile-body,
     .home-body {
-      width: min-content;
+      width: 60vw;
       display: grid;
       padding-bottom: 0%;
-      width: calc(97vw - var(--sidebar-width));
     }
   }
 `;

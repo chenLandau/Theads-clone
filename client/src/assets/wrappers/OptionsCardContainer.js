@@ -1,5 +1,6 @@
 import styled from "styled-components";
 const Wrapper = styled.section`
+  z-index: 9999;
   .card-layout {
     position: fixed;
     bottom: 0;

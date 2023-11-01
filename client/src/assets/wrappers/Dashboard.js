@@ -1,19 +1,30 @@
 import styled from "styled-components";
 
 const Wrapper = styled.section`
-  transition: var(--transition);
-  .icon-container {
+  .nav-header {
     height: var(--icon-height);
     position: fixed;
     background: var(--white);
-    justify-content: center;
-    width: 100vw;
+    width: 98vw;
     top: 0;
-    padding: 0.5rem;
+    padding-top: 0.5rem;
     z-index: 9999;
     display: flex;
-    .icon {
+    .thread-icon {
+      padding-left: 20px;
       font-size: 30px;
+      width: 100%;
+    }
+    .bars-icon {
+      margin-right: 4px;
+      font-size: 35px;
+      color: lightgray;
+    }
+    .bars-icon:hover {
+      cursor: pointer;
+      rotate: 90deg;
+      transition: var(--transition);
+      color: black;
     }
   }
   .dashboard {
@@ -27,10 +38,18 @@ const Wrapper = styled.section`
   }
 
   @media (min-width: 992px) {
-    .icon-container {
-      position: fixed;
-      margin-left: var(--sidebar-width);
-      width: calc(100vw - var(--sidebar-width));
+    margin-left: 20vw;
+    margin-right: 20vw;
+    width: 60vw;
+    .dashboard {
+      width: 60vw;
+      height: 100vh;
+      position: relative;
+      margin-right: 7vw;
+      margin: 0 0;
+    }
+    .nav-header {
+      width: 60vw;
     }
   }
 `;

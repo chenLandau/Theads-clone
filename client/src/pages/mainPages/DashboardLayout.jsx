@@ -5,6 +5,7 @@ import {
   useLoaderData,
   useNavigation,
 } from "react-router-dom";
+import { HiBars3BottomRight } from "react-icons/hi2";
 import { FaThreads } from "react-icons/fa6";
 import { Navbar, Sidebar, Loading } from "../../components";
 import Wrapper from "../../assets/wrappers/Dashboard";
@@ -45,11 +46,12 @@ const DashboardLayout = () => {
     >
       <Wrapper>
         <main className="dashboard">
-          <div className="icon-container">
-            <FaThreads className="icon" />
-          </div>
+          <header className="nav-header">
+            <FaThreads className="thread-icon" />
+            <HiBars3BottomRight className="bars-icon" />
+          </header>
           <Navbar />
-          <Sidebar />
+          {/* <Sidebar /> */}
           <NewThread />
           {isPageLoading ? <Loading /> : <Outlet context={{ user }} />}
         </main>

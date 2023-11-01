@@ -199,26 +199,21 @@ const Wrapper = styled.section`
     .new-thread-container {
       background: whitesmoke;
       box-shadow: var(--white);
-      //position: fixed;
-      //padding-left: 1rem;
 
       bottom: 0;
-      /* left: 0; */
       justify-content: center;
       display: flex;
       width: 100vw;
       height: 0;
       overflow: hidden;
+      padding: 0;
     }
-    /* .post-btn {
-      right: 16vw;
-    } */
+
     .text-area {
       width: 65vw;
     }
     .content {
       width: 70vw;
-      /* height: 80vh; */
     }
   }
 `;

@@ -126,6 +126,8 @@ const Wrapper = styled.section`
     background-color: lightgray;
   }
   @media (min-width: 992px) {
+    width: 100%;
+
     .card-btn {
       font-family: -apple-system, system-ui;
       color: darkgray;
@@ -133,9 +135,9 @@ const Wrapper = styled.section`
       background: transparent;
       border: transparent;
     }
-    .thread-card-container {
+    .card-container {
       padding: 0.5rem;
-      width: calc(97vw - var(--sidebar-width));
+      width: 100%;
     }
   }
 `;

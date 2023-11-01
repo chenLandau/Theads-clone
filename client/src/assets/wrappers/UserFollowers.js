@@ -39,7 +39,7 @@ const Wrapper = styled.section`
     .header-btn {
       border-top-right-radius: 0.5rem;
       border-top-left-radius: 0.5rem;
-      width: 50%;
+      width: 40vw;
     }
   }
   .cancel-btn {

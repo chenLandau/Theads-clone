@@ -2,8 +2,9 @@ import styled from "styled-components";
 const Wrapper = styled.section`
   padding-top: var(--icon-height);
   .header {
-    width: 97vw;
+    width: 100vw;
   }
+
   .header-btn-container {
     border-bottom: gray;
     display: flex;
@@ -74,11 +75,20 @@ const Wrapper = styled.section`
     text-align: left;
     padding: 1rem;
   }
+  .form-header {
+    width: 100vw;
+    padding: 2%;
+  }
   .search-input {
+    border: none;
     display: flex;
-    width: 100%;
+    width: 96vw;
   }
   .search-form-input {
+    border-radius: 0.25rem;
+    border: 0.5rem;
+    padding: 1rem;
+    background: #f2f2f2;
     width: 100%;
     height: 2rem;
     padding-left: 2rem;
@@ -119,14 +129,13 @@ const Wrapper = styled.section`
   }
   @media (min-width: 992px) {
     .header-btn {
-      width: calc((97vw - var(--sidebar-width)) / 2);
+      width: 30vw;
     }
     .header,
     .btn-container-1,
     .user-container,
     .header-btn-container {
-      border: 1px solid blue;
-      width: calc(97vw - var(--sidebar-width));
+      width: 60vw;
     }
     .btn-container-1 {
       justify-content: center;

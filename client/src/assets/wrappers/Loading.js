@@ -2,7 +2,7 @@ import styled from "styled-components";
 const Wrapper = styled.section`
   .page-center {
     height: 100vh;
-    /* height: calc(100vh - var(--nav-height)); */
+    width: 100%;
     display: flex;
     align-self: center;
     justify-content: center;
@@ -22,13 +22,11 @@ const Wrapper = styled.section`
     }
   }
   @media (min-width: 992px) {
-    width: calc(100vw - var(--sidebar-width));
+    width: 60vw;
     display: flex;
-    margin-left: 0;
     .page-center {
+      width: 60vw;
       justify-content: center;
-      width: calc(100vw - var(--sidebar-width));
-      margin-left: var(--sidebar-width);
     }
   }
 `;

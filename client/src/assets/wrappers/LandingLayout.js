@@ -13,8 +13,6 @@ const Wrapper = styled.section`
       grid-template-columns: 65vw 1fr;
     }
     .main-img {
-      /* width: 65vw; */
-      /* border-radius: 15%; */
       display: block;
     }
   }

@@ -31,7 +31,7 @@ const SearchHeader = () => {
               name="search"
               defaultValue={searchValue.search}
               className="search-form-input"
-              placeholder="search"
+              placeholder="Search"
               autoFocus
               onChange={debounce((form) => {
                 submit(form);
