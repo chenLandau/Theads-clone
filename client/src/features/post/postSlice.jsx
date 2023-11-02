@@ -35,7 +35,7 @@ const postsSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    fetchPostsSuccess: (state, action) => {
+    fetchPosts: (state, action) => {
       const { displayMode, posts } = action.payload;
       state.displayMode = DisplayPostMode.PROFILE;
       if (displayMode === DisplayPostMode.PROFILE) state.profilePosts = posts;
@@ -46,7 +46,7 @@ const postsSlice = createSlice({
     setFollowingPosts: (state, action) => {
       state.homePosts = state.followingPosts;
     },
-    likePostSuccess: (state, action) => {
+    likePost: (state, action) => {
       const { post } = action.payload;
       const updatePosts = (posts) => {
         return posts.map((thread) => {
@@ -64,7 +64,7 @@ const postsSlice = createSlice({
         state.currentPost.post = post;
       }
     },
-    likeReplySuccess: (state, action) => {
+    likeReply: (state, action) => {
       const { updatedReply } = action.payload;
       const { replies } = state.currentPost;
       const updateReplies = (replies) => {
@@ -77,18 +77,18 @@ const postsSlice = createSlice({
       };
       state.currentPost.replies = updateReplies(state.currentPost.replies);
     },
-    likePostFailure: (state, action) => {
-      // Handle failure if needed
-    },
-    deletePostSuccess: (state, action) => {
+    deletePost: (state, action) => {
       const { massage, posts } = action.payload;
+      // if (displayMode === DisplayPostMode.SINGLE_POST) {
+      //   state.currentPost = null;
+      // }
       state.profilePosts = posts;
     },
-    createPostSuccess: (state, action) => {
+    createPost: (state, action) => {
       const { newPost } = action.payload;
       state.profilePosts = [...state.profilePosts, newPost];
     },
-    deleteReplySuccess: (state, action) => {
+    deleteReply: (state, action) => {
       const { updatedPost, replyId } = action.payload;
       console.log(action.payload);
       const { post, replies } = state.currentPost;
@@ -100,7 +100,7 @@ const postsSlice = createSlice({
         replies: [...updatedReplies],
       };
     },
-    addReplySuccess: (state, action) => {
+    addReply: (state, action) => {
       const { updatedPost, reply } = action.payload;
       const updatePosts = (posts) => {
         return posts.map((thread) => {

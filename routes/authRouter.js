@@ -6,7 +6,7 @@ import {
 import upload from "../middleware/multerMiddleware.js";
 
 const router = Router();
-import { login, register } from "../controllers/authController.js";
+import { login, register, logout } from "../controllers/authController.js";
 router.post(
   "/register",
   upload.single("avatar"),
@@ -14,5 +14,6 @@ router.post(
   register
 );
 router.post("/login", validateLoginInput, login);
+router.get("/logout", logout);
 
 export default router;

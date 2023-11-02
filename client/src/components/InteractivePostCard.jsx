@@ -10,28 +10,28 @@ import {
   MessageCircle,
 } from "react-feather";
 import { Link } from "react-router-dom";
-import UserFollowers from "./UserFollowers";
 import { useDispatch } from "react-redux";
 import { likePost, dislikePost } from "../thunks/postsThunks";
-import OptionsMenuCard from "./OptionsMenuCard";
-import UserProfileLink from "./UserProfileLink";
-import AddReplyContainer from "./AddReplyContainer";
-import PostLikes from "./PostLikes";
-const InteractivePostCard = (post) => {
-  const {
-    _id,
-    avatar,
-    username,
-    createdBy,
-    timePassed,
-    content,
-    isLikedByUser,
-    isAuthorizedUser,
-    postImage,
-    repliesAmount,
-    likesAmount,
-  } = post;
-
+import {
+  OptionsMenuCard,
+  UserProfileLink,
+  AddReplyContainer,
+  PostLikes,
+} from "./index";
+import { toast } from "react-toastify";
+const InteractivePostCard = ({
+  _id,
+  avatar,
+  username,
+  createdBy,
+  timePassed,
+  content,
+  isLikedByUser,
+  isAuthorizedUser,
+  postImage,
+  repliesAmount,
+  likesAmount,
+}) => {
   const [showOptionMenu, setShowOptionMenu] = useState(false);
   const [showLikes, setShowLikes] = useState(false);
   const [showAddReply, setShowAddReply] = useState(false);
@@ -47,10 +47,11 @@ const InteractivePostCard = (post) => {
     setShowAddReply(true);
   };
   const handleLikeClick = async () => {
-    if (!isLikedByUser) {
-      dispatch(likePost(_id));
-    } else {
-      dispatch(dislikePost(_id));
+    try {
+      if (!isLikedByUser) await dispatch(likePost(_id));
+      else await dispatch(dislikePost(_id));
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
     }
   };
 

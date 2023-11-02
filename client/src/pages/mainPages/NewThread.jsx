@@ -1,14 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Wrapper from "../../assets/wrappers/NewThread";
 import { useDashboardContext } from "./DashboardLayout";
 import profileImg from "../../assets/images/default-profile-pic.jpg";
 import { createPost } from "../../thunks/postsThunks";
 import { useDispatch } from "react-redux";
 import { MdPermMedia, MdCancel } from "react-icons/md";
+import { FaCheck } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { PiSpinnerGap } from "react-icons/pi";
 const NewThread = () => {
   const dispatch = useDispatch();
-
   const { user, showNewThread, toggleNewThreadWindow } = useDashboardContext();
   const [text, setText] = useState("");
   const [file, setFile] = useState(null);
@@ -43,15 +44,15 @@ const NewThread = () => {
   const handlePostClick = async () => {
     const formData = new FormData();
     if (file) {
-      console.log(file);
       formData.append("file", file);
-      console.log(formData.get("file"));
     }
     if (text) formData.append("text", text);
+
     try {
-      console.log("post");
-      dispatch(createPost(formData));
-      toast.success("Thread Posted");
+      await dispatch(createPost(formData));
+      toast.success("Posted", {
+        icon: <FaCheck />,
+      });
       toggleNewThreadWindow(false);
       setText("");
       redirect(`../`);
@@ -69,7 +70,7 @@ const NewThread = () => {
             : "new-thread-container hide-container"
         }
       >
-        {/* <div className="card-layout" /> */}
+        <div className="card-layout" />
         <div className="content">
           <div className="thread-header">
             <button

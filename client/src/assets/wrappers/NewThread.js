@@ -1,29 +1,28 @@
 import styled from "styled-components";
 const Wrapper = styled.section`
+  z-index: 9999;
   .new-thread-container {
-    background: whitesmoke;
     box-shadow: var(--white);
+    justify-content: center;
+    display: flex;
     position: fixed;
     bottom: 0;
     left: 0;
-    justify-content: center;
-    display: flex;
     width: 100%;
-    height: 100vh;
-    align-self: center;
     height: 0;
-    overflow: hidden;
-    padding: 2rem;
+  }
+  .card-layout {
+    bottom: 0;
+    left: 0;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    background: gray;
+    opacity: 0.5;
   }
   .show-container {
     z-index: 9999;
     animation: slide-up 0.5s forwards;
-  }
-
-  .card-container {
-    padding-top: 0.5rem;
-    display: flex;
-    height: max-content;
   }
 
   @keyframes slide-up {
@@ -88,17 +87,22 @@ const Wrapper = styled.section`
     background-color: lightgray;
   }
   .content {
-    /* gap: 0.5rem; */
+    position: fixed;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
     margin-top: 1rem;
     width: 90vw;
-    height: 80vh;
+    height: 50vh;
+    max-height: 90vh;
     padding: 0.5rem;
     background: white;
-    /* display: grid; */
     align-items: center;
     justify-content: center;
+
     border-radius: 0.5rem;
+  }
+  .card-container {
+    padding-top: 0.5rem;
+    display: flex;
   }
   .thread-header {
     cursor: default;
@@ -174,11 +178,12 @@ const Wrapper = styled.section`
     transition: var(--transition);
     text-transform: capitalize;
     background: black;
-    height: min-content;
+    /* height: min-content; */
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
     padding: 0.5rem;
     border-radius: 0.5rem;
-    margin-left: 88%;
-    margin-top: 65%;
     border: none;
   }
 
@@ -196,24 +201,8 @@ const Wrapper = styled.section`
     align-items: center;
   }
   @media (min-width: 992px) {
-    .new-thread-container {
-      background: whitesmoke;
-      box-shadow: var(--white);
-
-      bottom: 0;
-      justify-content: center;
-      display: flex;
-      width: 100vw;
-      height: 0;
-      overflow: hidden;
-      padding: 0;
-    }
-
-    .text-area {
-      width: 65vw;
-    }
     .content {
-      width: 70vw;
+      width: 40vw;
     }
   }
 `;

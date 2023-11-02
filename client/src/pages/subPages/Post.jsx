@@ -16,7 +16,8 @@ const Post = () => {
   useEffect(() => {
     dispatch(postPageLoader(postId));
   }, []);
-  if (isLoadingPosts || !currentPost) return <Loading />;
+  if (isLoadingPosts) return <Loading />;
+  else if (!currentPost) return <div className="div">post not defined</div>;
   const { post, replies } = currentPost;
   return (
     <Wrapper>

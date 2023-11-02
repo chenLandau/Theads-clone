@@ -3,26 +3,24 @@ import Wrapper from "../assets/wrappers/OptionsCardContainer";
 import { deletePost, deleteReply } from "../thunks/postsThunks";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { useDashboardContext } from "../pages/mainPages/DashboardLayout";
 
 const OptionsMenuCard = ({ type, id, showOptionMenu, setShowOptionMenu }) => {
+  const { user } = useDashboardContext();
   const dispatch = useDispatch();
   const handleCancelClick = () => {
     setShowOptionMenu(false);
   };
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = async () => {
     try {
-      if (type === "post") {
-        dispatch(deletePost(id));
-        window.location.href = "/threads";
-      } else if (type === "reply") {
-        dispatch(deleteReply(id));
-      }
-      setShowOptionMenu(false);
-      toast.success(`${type} deleted successfully`);
+      if (type === "post") await dispatch(deletePost(id));
+      else if (type === "reply") await dispatch(deleteReply(id));
+      toast.success(`${type} deleted`);
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
+    setShowOptionMenu(false);
   };
   return (
     <Wrapper>

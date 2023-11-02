@@ -104,6 +104,8 @@ export const deletePost = async (req, res) => {
   const removedPost = await Post.findByIdAndDelete(postId); //check if there is postImg and delete from cloudinary
   await User.findByIdAndUpdate(req.userId, { $pull: { posts: postId } });
   await Reply.deleteMany({ _id: { $in: removedPost.replies } });
+  // await Activity.deleteMany({ _id: { $in: removedPost.replies } });
+
   if (removedPost.postImage) {
     const response = await cloudinary.uploader.destroy(
       removedPost.postImagePublicId

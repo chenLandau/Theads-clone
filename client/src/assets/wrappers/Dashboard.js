@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
 const Wrapper = styled.section`
+  .dashboard {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    margin: 0 0;
+  }
   .nav-header {
     height: var(--icon-height);
     position: fixed;
@@ -15,28 +21,39 @@ const Wrapper = styled.section`
       font-size: 30px;
       width: 100%;
     }
-    .bars-icon {
+    .dropdown-menu-container {
       margin-right: 4px;
       font-size: 35px;
       color: lightgray;
     }
-    .bars-icon:hover {
-      cursor: pointer;
-      rotate: 90deg;
-      transition: var(--transition);
-      color: black;
-    }
-  }
-  .dashboard {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    margin: 0 0;
-    /* margin: 0 0;
-    width: 100vw;
-    grid-template-columns: auto 1fr; */
   }
 
+  /* Logout Container */
+  .bars-icon:hover {
+    cursor: pointer;
+    rotate: 90deg;
+    transition: var(--transition);
+    color: black;
+  }
+  .logout-btn-container {
+    display: grid;
+    right: 0.2rem;
+    width: max-content;
+    position: fixed;
+    border-radius: 0.25rem;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    .btn {
+      font-weight: 550;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      width: 10rem;
+      color: black;
+      background: white;
+      border: none;
+      border-top: 1px solid lightgray;
+      text-transform: capitalize;
+    }
+  }
   @media (min-width: 992px) {
     margin-left: 20vw;
     margin-right: 20vw;
@@ -50,6 +67,9 @@ const Wrapper = styled.section`
     }
     .nav-header {
       width: 60vw;
+    }
+    .logout-btn-container {
+      right: 18.5vw;
     }
   }
 `;

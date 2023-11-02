@@ -25,13 +25,13 @@ const Wrapper = styled.section`
     animation: spinner 0.6s linear infinite;
   }
   @media (min-width: 992px) {
-    width: 60vw;
+    width: var(--large-page-width);
     .container {
-      width: 60vw;
+      width: var(--large-page-width);
     }
     .profile-body,
     .home-body {
-      width: 60vw;
+      width: var(--large-page-width);
       display: grid;
       padding-bottom: 0%;
     }

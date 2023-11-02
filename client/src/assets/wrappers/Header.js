@@ -82,7 +82,7 @@ const Wrapper = styled.section`
   .search-input {
     border: none;
     display: flex;
-    width: 96vw;
+    width: 100%;
   }
   .search-form-input {
     border-radius: 0.25rem;
@@ -128,6 +128,9 @@ const Wrapper = styled.section`
     gap: 3rem;
   }
   @media (min-width: 992px) {
+    .form-header {
+      width: var(--large-page-width);
+    }
     .header-btn {
       width: 30vw;
     }
@@ -135,7 +138,7 @@ const Wrapper = styled.section`
     .btn-container-1,
     .user-container,
     .header-btn-container {
-      width: 60vw;
+      width: var(--large-page-width);
     }
     .btn-container-1 {
       justify-content: center;

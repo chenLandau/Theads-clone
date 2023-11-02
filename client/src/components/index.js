@@ -1,5 +1,4 @@
 export { default as FormRow } from "./FormRow.jsx";
-export { default as Sidebar } from "./Sidebar";
 export { default as Navbar } from "./Navbar";
 export { default as Loading } from "./Loading";
 export { default as ActivityCard } from "./ActivityCard";
@@ -13,3 +12,6 @@ export { default as BasicPostCard } from "./BasicPostCard.jsx";
 export { default as AddReply } from "./AddReply.jsx";
 export { default as ReplyCard } from "./ReplyCard.jsx";
 export { default as OptionsMenuCard } from "./OptionsMenuCard.jsx";
+export { default as AddReplyContainer } from "./AddReplyContainer.jsx";
+export { default as PostLikes } from "./PostLikes.jsx";
+export { default as LogoutContainer } from "./LogoutContainer.jsx";

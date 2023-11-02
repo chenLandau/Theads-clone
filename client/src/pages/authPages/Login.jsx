@@ -11,7 +11,7 @@ export const action = async ({ request }) => {
   const data = Object.fromEntries(formData);
   try {
     await login(data);
-    toast.success("Login successful");
+    toast.success("Login in...");
     return redirect("/threads");
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -19,8 +19,6 @@ export const action = async ({ request }) => {
   }
 };
 const Login = () => {
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
   return (
     <Wrapper>
       <div className="container main-container">

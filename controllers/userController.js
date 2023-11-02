@@ -88,10 +88,12 @@ export const getUserFollowers = async (req, res) => {
 export const getUserActivities = async (req, res) => {
   const userActivity = await UserActivity.findOne({ userId: req.userId })
     .select("activities")
-    .sort({
-      createdAt: -1,
-    });
+    // .sort({
+    //   createdAt: -1,
+    // })
+    .limit(30);
   const { activities } = userActivity;
-  const modifiedActivities = await getModifiedActivities(activities);
-  res.status(StatusCodes.OK).json({ modifiedActivities });
+  const limitedActivities = activities.slice(0, 30);
+  const modifiedActivities = await getModifiedActivities(limitedActivities);
+  res.status(StatusCodes.OK).json({ activities: modifiedActivities });
 };

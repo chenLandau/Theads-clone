@@ -77,6 +77,7 @@ export const addPostLikeActivity = async (
 };
 export const getModifiedActivities = async (activities) => {
   const modifiedActivities = [];
+  console.log(activities.length);
   for (const activity of activities) {
     let modifiedActivity;
     let userActivityBy = await User.findById(activity.activityBy);
@@ -93,26 +94,30 @@ export const getModifiedActivities = async (activities) => {
       case ACTIVITY_TYPE.POST_LIKE:
       case ACTIVITY_TYPE.NEW_POST:
         let post = await Post.findById(activity.postId);
-        modifiedActivity = {
-          username: userActivityBy.user_name,
-          userId: userActivityBy._id,
-          avatar: userActivityBy.avatar,
-          postId: post._id,
-          postContent: post.content,
-          postImage: post.postImage,
-          activityType: activity.activityType,
-        };
+        if (post) {
+          modifiedActivity = {
+            username: userActivityBy.user_name,
+            userId: userActivityBy._id,
+            avatar: userActivityBy.avatar,
+            postId: post._id,
+            postContent: post.content,
+            postImage: post.postImage,
+            activityType: activity.activityType,
+          };
+        }
         break;
       case ACTIVITY_TYPE.POST_REPLY:
         let reply = await Post.findById(activity.postId);
-        modifiedActivity = {
-          username: userActivityBy.user_name,
-          userId: userActivityBy._id,
-          avatar: userActivityBy.avatar,
-          postId: reply.postId,
-          replyContent: reply.content,
-          activityType: activity.activityType,
-        };
+        if (reply) {
+          modifiedActivity = {
+            username: userActivityBy.user_name,
+            userId: userActivityBy._id,
+            avatar: userActivityBy.avatar,
+            postId: reply.postId,
+            replyContent: reply.content,
+            activityType: activity.activityType,
+          };
+        }
         break;
 
       case ACTIVITY_TYPE.REPLY_LIKE:

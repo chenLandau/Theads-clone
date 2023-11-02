@@ -19,12 +19,6 @@ const Activity = () => {
     <Wrapper>
       <section className="container">
         <h1 className="activity-title">Activity</h1>
-        {/* <header className="btn-container">
-          <button className="activity-btn">All</button>
-          <button className="activity-btn">Request</button>
-          <button className="activity-btn">Replies</button>
-          <button className="activity-btn">Mentions</button>
-        </div> */}
         <div className="home-body">
           {activities.map((activity) => {
             return <ActivityCard key={nanoid()} activity={activity} />;
