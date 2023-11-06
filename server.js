@@ -22,16 +22,10 @@ import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
 import { authenticateUser } from "./middleware/authMiddleware.js";
 import { v2 as cloudinary } from "cloudinary";
 
-// cloudinary.config({
-//   cloud_name: process.env.CLOUD_NAME,
-//   api_key: process.env.CLOUD_API_KEY,
-//   api_secret: process.env.CLOUD__API_SECRET,
-// });
-
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
-  api_key: "796315738237886",
-  api_secret: "QlBtHgBxxY7y6eAN6P7NF7-rMlo",
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD__API_SECRET,
 });
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
