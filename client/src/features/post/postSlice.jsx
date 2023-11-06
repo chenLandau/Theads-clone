@@ -10,19 +10,11 @@ export const DisplayPostMode = {
 const initialState = {
   displayMode: DisplayPostMode.HOME,
   homePosts: [],
-  forYouPosts: [],
-  followingPosts: [],
   profilePosts: [],
   currentPost: null,
   isLoadingPosts: true,
 };
-export const getHomeFeedPosts = createAsyncThunk(
-  "posts/getHomeFeedPosts",
-  async () => {
-    const response = await customFetch.get("./posts/homeFeed");
-    return response.data; // Assuming response is in the format { data: { posts: [...] } }
-  }
-);
+
 export const postPageLoader = createAsyncThunk(
   "posts/getPostPage",
   async (postId) => {
@@ -30,36 +22,48 @@ export const postPageLoader = createAsyncThunk(
     return response.data; // Assuming response is in the format { data: { posts: [...] } }
   }
 );
-
+const updatePostLikes = (posts, postId, likesAmount, isLikedByUser) => {
+  return posts.map((thread) => {
+    if (thread._id === postId) {
+      thread.likesAmount = likesAmount;
+      thread.isLikedByUser = isLikedByUser;
+    }
+    return thread;
+  });
+};
 const postsSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    fetchPosts: (state, action) => {
-      const { displayMode, posts } = action.payload;
-      state.displayMode = DisplayPostMode.PROFILE;
-      if (displayMode === DisplayPostMode.PROFILE) state.profilePosts = posts;
+    setPosts: (state, action) => {
+      const { posts, displayMode } = action.payload;
+      console.log(action.payload);
+
+      if (displayMode === "home") {
+        state.displayMode = DisplayPostMode.HOME;
+        state.homePosts = posts;
+      }
+      if (displayMode === "profile") {
+        state.displayMode = DisplayPostMode.PROFILE;
+        state.profilePosts = posts;
+      }
     },
-    setForYouPosts: (state, action) => {
-      state.homePosts = state.forYouPosts;
-    },
-    setFollowingPosts: (state, action) => {
-      state.homePosts = state.followingPosts;
-    },
-    likePost: (state, action) => {
-      const { post } = action.payload;
-      const updatePosts = (posts) => {
-        return posts.map((thread) => {
-          if (thread._id === post._id) {
-            return post;
-          }
-          return thread;
-        });
-      };
+    setPostLikes: (state, action) => {
+      const { postId, likesAmount, isLikedByUser } = action.payload;
       if (state.displayMode === DisplayPostMode.HOME) {
-        state.homePosts = updatePosts(state.homePosts);
+        state.homePosts = updatePostLikes(
+          state.homePosts,
+          postId,
+          likesAmount,
+          isLikedByUser
+        );
       } else if (state.displayMode === DisplayPostMode.PROFILE) {
-        state.profilePosts = updatePosts(state.profilePosts);
+        state.profilePosts = updatePostLikes(
+          state.profilePosts,
+          postId,
+          likesAmount,
+          isLikedByUser
+        );
       } else {
         state.currentPost.post = post;
       }
@@ -78,19 +82,18 @@ const postsSlice = createSlice({
       state.currentPost.replies = updateReplies(state.currentPost.replies);
     },
     deletePost: (state, action) => {
-      const { massage, posts } = action.payload;
-      // if (displayMode === DisplayPostMode.SINGLE_POST) {
-      //   state.currentPost = null;
-      // }
-      state.profilePosts = posts;
+      const { postId } = action.payload;
+      const updatedProfilePosts = state.profilePosts.filter(
+        (post) => post._id !== postId
+      );
+      state.profilePosts = updatedProfilePosts;
     },
     createPost: (state, action) => {
       const { newPost } = action.payload;
-      state.profilePosts = [...state.profilePosts, newPost];
+      state.profilePosts = [newPost, ...state.profilePosts];
     },
     deleteReply: (state, action) => {
       const { updatedPost, replyId } = action.payload;
-      console.log(action.payload);
       const { post, replies } = state.currentPost;
       const updatedReplies = replies.filter((reply) => reply._id !== replyId);
 
@@ -126,20 +129,6 @@ const postsSlice = createSlice({
     },
   },
   extraReducers: {
-    [getHomeFeedPosts.pending]: (state) => {
-      state.isLoadingPosts = true;
-    },
-    [getHomeFeedPosts.fulfilled]: (state, action) => {
-      const { followingPosts, forYouPosts } = action.payload;
-      state.followingPosts = followingPosts;
-      state.forYouPosts = forYouPosts;
-      state.homePosts = forYouPosts;
-      state.isLoadingPosts = false;
-      state.displayMode = DisplayPostMode.HOME;
-    },
-    [getHomeFeedPosts.rejected]: (state) => {
-      state.isLoadingPosts = true;
-    },
     [postPageLoader.pending]: (state) => {
       state.isLoadingPosts = true;
     },
@@ -153,6 +142,6 @@ const postsSlice = createSlice({
     },
   },
 });
-export const { setFollowingPosts, setForYouPosts } = postsSlice.actions;
+export const { setPosts } = postsSlice.actions;
 export const { actions } = postsSlice;
 export default postsSlice.reducer;

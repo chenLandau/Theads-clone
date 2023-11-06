@@ -24,6 +24,8 @@ export const action = async ({ request }) => {
 };
 
 const Register = () => {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
   return (
     <Wrapper>
       <div className="container main-container">
@@ -61,7 +63,7 @@ const Register = () => {
             // onChange={handleFileUpload}
           />
           <button type="submit" className="btn ">
-            Submit
+            {isSubmitting ? "submitting..." : "submit"}
           </button>
           <p>
             Already have an account?

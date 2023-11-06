@@ -1,11 +1,12 @@
 import "express-async-errors";
 import * as dotenv from "dotenv";
 dotenv.config();
-import express, { json } from "express";
+import express from "express";
 const app = express();
 import morgan from "morgan";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
+import cloudinary from "cloudinary";
 
 // import cloudinary from "cloudinary";
 //routers
@@ -20,23 +21,21 @@ import path from "path";
 //middleware
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
 import { authenticateUser } from "./middleware/authMiddleware.js";
-import { v2 as cloudinary } from "cloudinary";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
-  api_secret: process.env.CLOUD__API_SECRET,
+  api_secret: process.env.CLOUD_API_SECRET,
 });
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true })); //// Parse incoming FormData
+// app.use(express.urlencoded({ extended: true })); //// Parse incoming FormData
 app.use(express.json());
-app.use(express.static(path.resolve(__dirname, "./public")));
+// app.use(express.static(path.resolve(__dirname, "./public")));
 
 app.use("/api/v1/posts", authenticateUser, postsRouter);
 app.use("/api/v1/users", authenticateUser, userRouter);
@@ -50,7 +49,6 @@ app.get("*", (req, res) => {
 app.use("*", (req, res) => {
   res.status(404), json({ msg: "not found" });
 });
-// app.use("/").get(() => {});
 app.use(errorHandlerMiddleware);
 const port = process.env.PORT || 2012;
 try {

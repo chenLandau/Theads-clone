@@ -4,11 +4,9 @@ import upload from "../middleware/multerMiddleware.js";
 const router = Router();
 
 import {
-  getForYouPosts,
-  getFollowingPosts,
   createPost,
   deletePost,
-  getUserPosts,
+  getUserProfilePosts,
   likePost,
   dislikePost,
   addPostReply,
@@ -18,6 +16,7 @@ import {
   likePostReply,
   dislikePostReply,
   deleteReply,
+  getUserReplies,
 } from "../controllers/postsController.js";
 import {
   validateNewPostInput,
@@ -30,9 +29,9 @@ import {
 } from "../middleware/validationMiddleware.js";
 
 router.route("/homeFeed").get(getHomeFeedPosts);
-router.route("/forYou").get(getForYouPosts);
-router.route("/following").get(getFollowingPosts);
-router.route("/user-posts").get(getUserPosts);
+router.route("/user-profile-posts").get(getUserProfilePosts);
+router.route("/user-replies").get(getUserReplies);
+
 router.route("/").post(upload.single("file"), validateNewPostInput, createPost);
 router.route("/addPostReply").post(validatePostIdQuery, addPostReply);
 router.route("/likePostReply").put(validateLikeReplyInput, likePostReply);

@@ -6,12 +6,10 @@ import { comparePassword, hashedPassword } from "../utils/passwordUtils.js";
 import { createJwt } from "../utils/tokenUtils.js";
 import cloudinary from "cloudinary";
 import { promises as fs } from "fs";
-
 export const register = async (req, res) => {
   const user = { ...req.body };
   if (req.file) {
     const response = await cloudinary.v2.uploader.upload(req.file.path);
-    console.log(response);
     await fs.unlink(req.file.path);
     user.avatar = response.secure_url;
     user.avatarPublicId = response.public_id;

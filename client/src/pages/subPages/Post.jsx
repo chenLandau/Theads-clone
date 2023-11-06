@@ -16,13 +16,14 @@ const Post = () => {
   useEffect(() => {
     dispatch(postPageLoader(postId));
   }, []);
-  if (isLoadingPosts) return <Loading />;
-  else if (!currentPost) return <div className="div">post not defined</div>;
+  if (isLoadingPosts || !currentPost) return <Loading />;
+  // else if (!currentPost) return <div className="div">post not defined</div>;
   const { post, replies } = currentPost;
   return (
     <Wrapper>
       <section className="container">
         <div className="post-page">
+          <h3 className="title">Post</h3>
           <InteractivePostCard id={post._id} {...post} />
           {replies.map((reply) => {
             return <ReplyCard key={reply._id} reply={reply} />;

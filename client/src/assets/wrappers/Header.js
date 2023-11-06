@@ -101,17 +101,12 @@ const Wrapper = styled.section`
   .btn-container-1 {
     padding: 1rem;
     display: flex;
+    justify-content: center;
     gap: 2rem;
-    .btn {
-      text-align: center;
-      color: var(--white);
-      width: 15rem;
-      font-weight: 500;
-      cursor: pointer;
-      background: black;
-      border-radius: var(--border-radius);
-      transition: var(--transition);
-      text-transform: capitalize;
+    .black-btn,
+    .white-btn,
+    .grey-btn {
+      width: 80vw;
     }
   }
   .form-icon {
@@ -141,7 +136,15 @@ const Wrapper = styled.section`
       width: var(--large-page-width);
     }
     .btn-container-1 {
+      padding: 1rem;
+      display: flex;
       justify-content: center;
+      gap: 2rem;
+      .black-btn,
+      .white-btn,
+      .grey-btn {
+        width: 50vw;
+      }
     }
   }
 `;

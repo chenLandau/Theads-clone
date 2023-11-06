@@ -1,24 +1,13 @@
 import customFetch from "../utils/customFetch";
 import { actions } from "../features/post/postSlice";
-import { DisplayPostMode } from "../features/post/postSlice";
-export const fetchUserPosts = (username) => async (dispatch) => {
-  const response = await customFetch.get(
-    `/posts/user-posts?username=${username}`
-  );
-  dispatch(
-    actions.fetchPosts({
-      displayMode: DisplayPostMode.PROFILE,
-      posts: response.data.posts,
-    })
-  );
-};
+
 export const likePost = (postId) => async (dispatch) => {
   const { data } = await customFetch.put(`/posts/likePost?postId=${postId}`);
-  dispatch(actions.likePost(data));
+  dispatch(actions.setPostLikes(data));
 };
 export const dislikePost = (postId) => async (dispatch) => {
   const { data } = await customFetch.put(`/posts/dislikePost?postId=${postId}`);
-  dispatch(actions.likePost(data));
+  dispatch(actions.setPostLikes(data));
 };
 export const createPost = (formData) => async (dispatch) => {
   const { data } = await customFetch.post("/posts", formData);

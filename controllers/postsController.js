@@ -41,6 +41,7 @@ export const getHomeFeedPosts = async (req, res) => {
 };
 
 export const getForYouPosts = async (req, res) => {
+  //delete
   const posts = await Post.find({ createdBy: { $ne: req.userId } }).sort({
     createdAt: -1,
   });
@@ -49,19 +50,51 @@ export const getForYouPosts = async (req, res) => {
 };
 
 export const getFollowingPosts = async (req, res) => {
+  //delete
   const user = await User.findById(req.userId);
   const posts = await Post.find({ createdBy: req.userId }).sort({
     createdAt: -1,
   });
   res.status(StatusCodes.OK).json({ posts });
 };
-export const getUserPosts = async (req, res) => {
+export const getUserProfilePosts = async (req, res) => {
   const username = req.query.username;
-  const userId = await User.findOne({ user_name: username }).select("_id");
-  const posts = await Post.find({ createdBy: userId }).sort({ createdAt: -1 });
-  const modifiedPosts = await getModifiedPosts(posts, req.userId);
-  res.status(StatusCodes.OK).json({ posts: modifiedPosts });
+  const authUserId = req.userId;
+  const targetUserId = await User.findOne({ user_name: username }).select(
+    "_id"
+  );
+  const posts = await getUserThreads(username, authUserId, targetUserId);
+  const postsWithReplies = await getUserReplies(
+    username,
+    authUserId,
+    targetUserId
+  );
+  res.status(StatusCodes.OK).json({ posts, postsWithReplies });
 };
+export const getUserThreads = async (username, authUserId, targetUserId) => {
+  const posts = await Post.find({ createdBy: targetUserId }).sort({
+    createdAt: -1,
+  });
+  const modifiedPosts = await getModifiedPosts(posts, authUserId);
+  return modifiedPosts;
+};
+export const getUserReplies = async (username, authUserId, targetUserId) => {
+  const replies = await Reply.find({ createdBy: targetUserId });
+  const modifiedReplies = [];
+  for (const reply of replies) {
+    const post = await Post.findOne({ _id: reply.postId });
+    if (post) {
+      const modifiedPost = await getModifiedSinglePost(post, authUserId);
+      const modifiedReply = await getModifiedSingleReply(reply, authUserId);
+      if (modifiedPost && modifiedReply) {
+        modifiedPost.reply = modifiedReply;
+        modifiedReplies.push(modifiedPost);
+      }
+    }
+  }
+  return modifiedReplies;
+};
+
 export const createPost = async (req, res) => {
   const post = { content: req.body.text, createdBy: req.userId };
   if (req.file) {
@@ -74,14 +107,14 @@ export const createPost = async (req, res) => {
   const user = await User.findByIdAndUpdate(req.userId, {
     $push: { posts: _post._id },
   });
+  const newPost = await getModifiedSinglePost(_post, req.userId);
   addNewPostActivity(
-    //await
     req.userId,
     user.followers,
     _post._id,
     ACTIVITY_TYPE.NEW_POST
   );
-  res.status(StatusCodes.OK).json({ newPost: _post });
+  res.status(StatusCodes.OK).json({ newPost: newPost });
 };
 export const getSinglePost = async (req, res) => {
   const postId = req.query.postId;
@@ -104,22 +137,14 @@ export const deletePost = async (req, res) => {
   const removedPost = await Post.findByIdAndDelete(postId); //check if there is postImg and delete from cloudinary
   await User.findByIdAndUpdate(req.userId, { $pull: { posts: postId } });
   await Reply.deleteMany({ _id: { $in: removedPost.replies } });
-  // await Activity.deleteMany({ _id: { $in: removedPost.replies } });
 
   if (removedPost.postImage) {
     const response = await cloudinary.uploader.destroy(
       removedPost.postImagePublicId
     );
   }
-  const posts = await Post.find({ createdBy: req.userId }).sort({
-    createdAt: -1,
-  });
-  const modifiedPosts = await getModifiedPosts(posts, req.userId);
-
-  if (!removedPost) throw new NotFoundError(`no post with id ${postId}`);
   res.status(StatusCodes.OK).json({
-    massage: "post deleted",
-    posts: modifiedPosts,
+    postId: postId,
   });
 };
 export const deleteReply = async (req, res) => {
@@ -205,17 +230,13 @@ export const dislikePost = async (req, res) => {
     },
     { new: true }
   );
-  const modifiedPost = await getModifiedSinglePost(updatedPost, req.userId);
-
-  res.status(StatusCodes.OK).json({ post: modifiedPost });
+  res.status(StatusCodes.OK).json({
+    postId: postId,
+    likesAmount: updatedPost.likes.length,
+    isLikedByUser: false,
+  });
 };
 
-export const getPostLikes = async (req, res) => {
-  const postId = req.query.postId;
-  const post = await Post.findById(postId).select("likes");
-  const modifiedUsers = await getModifiedUsersById(post.likes);
-  res.status(StatusCodes.OK).json({ users: modifiedUsers });
-};
 export const likePost = async (req, res) => {
   const postId = req.query.postId;
   const updatedPost = await Post.findByIdAndUpdate(
@@ -225,12 +246,21 @@ export const likePost = async (req, res) => {
     },
     { new: true }
   );
-  const modifiedPost = await getModifiedSinglePost(updatedPost, req.userId);
   addPostLikeActivity(
     req.userId,
     updatedPost.createdBy,
     postId,
     ACTIVITY_TYPE.POST_LIKE
   );
-  res.status(StatusCodes.OK).json({ post: modifiedPost });
+  res.status(StatusCodes.OK).json({
+    postId: postId,
+    likesAmount: updatedPost.likes.length,
+    isLikedByUser: true,
+  });
+};
+export const getPostLikes = async (req, res) => {
+  const postId = req.query.postId;
+  const post = await Post.findById(postId).select("likes");
+  const modifiedUsers = await getModifiedUsersById(post.likes);
+  res.status(StatusCodes.OK).json({ users: modifiedUsers });
 };

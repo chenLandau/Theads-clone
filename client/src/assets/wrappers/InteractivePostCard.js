@@ -22,6 +22,18 @@ const Wrapper = styled.section`
       padding-bottom: 0.2rem;
       color: darkgray;
     }
+    .card-label {
+      font-family: -apple-system, system-ui;
+      color: darkgray;
+      font-weight: 400;
+      font-size: 1rem;
+      background: transparent;
+      border: transparent;
+    }
+    .card-label:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
   }
 
   .container-3 {
@@ -47,17 +59,7 @@ const Wrapper = styled.section`
       cursor: pointer;
     }
   }
-  .card-btn {
-    font-family: -apple-system, system-ui;
-    color: darkgray;
-    font-weight: 400;
-    background: transparent;
-    border: transparent;
-  }
-  .card-btn:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
+
   .links-container {
     display: flex;
     width: min-content;

@@ -10,3 +10,4 @@ export { default as DashboardLayout } from "./mainPages/DashboardLayout";
 export { default as Error } from "./Error";
 export { default as Landing } from "./authPages/Landing";
 export { default as Post } from "./subPages/Post";
+export { default as EditProfile } from "./subPages/EditProfile";

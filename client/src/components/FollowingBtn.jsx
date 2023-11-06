@@ -5,7 +5,7 @@ const FollowingBtn = ({ targetUserId }) => {
   const dispatch = useDispatch();
   return (
     <button
-      className="btn"
+      className="grey-btn"
       onClick={() => dispatch(unFollowUser(targetUserId))}
     >
       Following

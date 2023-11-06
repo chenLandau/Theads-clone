@@ -31,10 +31,7 @@ html {
   --white: #fff;
   --lightgray: #f2f2f2f2;
   --red-light: #f8d7da;
-  --red-dark: #842029;
   --green-light: #d1e7dd;
-  --green-dark: #0f5132;
-
   --small-text: 0.875rem;
   --extra-small-text: 0.7em;
   /* rest of the vars */
@@ -143,44 +140,12 @@ ul {
   display: block;
   object-fit: cover;
 }
-.btn {
-  text-align: center;
-  color: var(--white);
-  width: 15rem;
-  padding: 0.75rem 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  background: black;
-  border-radius: var(--border-radius);
-  transition: var(--transition);
-  text-transform: capitalize;
-}
+
 .btn:hover {
   /* background: var(--primary-400); */
   box-shadow: var(--shadow-3);
 }
-.btn-hipster {
-  color: var(--primary-500);
-  background: var(--primary-200);
-}
-.btn-hipster:hover {
-  color: var(--primary-200);
-  background: var(--primary-700);
-}
-.btn-block {
-  width: 100%;
-}
-/* button:disabled {
-  cursor: wait;
-} */
-.danger-btn {
-  color: var(--red-dark);
-  background: var(--red-light);
-}
-.danger-btn:hover {
-  color: var(--white);
-  background: var(--red-dark);
-}
+
 /* alerts */
 .alert {
   padding: 0.375rem 0.75rem;
@@ -219,6 +184,64 @@ ul {
     border-bottom: 5px solid var(--black);
   }
 } */
+
+/* buttons */
+.btn {
+  text-align: center;
+  color: white;
+  border: 1.5px solid lightgray;
+  padding: 0.5rem 2rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: black;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  text-transform: capitalize;
+}
+.grey-btn {
+  text-align: center;
+  color: grey;
+  border: 1.5px solid lightgrey;
+  padding: 0.5rem 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: white;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  text-transform: capitalize;
+}
+.black-btn {
+  text-align: center;
+  color: white;
+  border: 1.5px solid lightgray;
+  padding: 0.5rem 2rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: black;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  text-transform: capitalize;
+}
+.white-btn {
+  text-align: center;
+  color: black;
+  border: 1.5px solid lightgray;
+  padding: 0.5rem 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: white;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  text-transform: capitalize;
+}
+.white-btn:hover {
+  color: white;
+  background: black;
+}
+.grey-btn:hover {
+  color: white;
+  background: lightgray;
+}
 
 .form-label {
   display: block;

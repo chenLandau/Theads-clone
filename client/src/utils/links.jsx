@@ -37,7 +37,6 @@ const NavLinks = [
   {
     type: "profile-link",
     text: "profile",
-    //  path: "profile",
     icon: <BiSolidUser className="icon" />,
   },
 ];

@@ -46,6 +46,7 @@ const Wrapper = styled.section`
       font-weight: 550;
       border-radius: 0.25rem;
       cursor: pointer;
+      padding: 0.5rem;
       width: 10rem;
       color: black;
       background: white;

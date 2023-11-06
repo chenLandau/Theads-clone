@@ -19,19 +19,20 @@ import {
   PostLikes,
 } from "./index";
 import { toast } from "react-toastify";
-const InteractivePostCard = ({
-  _id,
-  avatar,
-  username,
-  createdBy,
-  timePassed,
-  content,
-  isLikedByUser,
-  isAuthorizedUser,
-  postImage,
-  repliesAmount,
-  likesAmount,
-}) => {
+const InteractivePostCard = (post) => {
+  const {
+    _id,
+    avatar,
+    username,
+    createdBy,
+    timePassed,
+    content,
+    isLikedByUser,
+    isAuthorizedUser,
+    postImage,
+    repliesAmount,
+    likesAmount,
+  } = post;
   const [showOptionMenu, setShowOptionMenu] = useState(false);
   const [showLikes, setShowLikes] = useState(false);
   const [showAddReply, setShowAddReply] = useState(false);
@@ -110,13 +111,16 @@ const InteractivePostCard = ({
             <Send className="icon" />
           </div>
           <div className="post-data">
-            <Link to={`/threads/${username}/post/${_id}`} className="card-btn">
-              <h5 className="card-btn">{repliesAmount} Replies</h5>
+            <Link
+              to={`/threads/${username}/post/${_id}`}
+              className="card-label"
+            >
+              <h5 className="card-label">{repliesAmount} Replies</h5>
             </Link>
             <p>·</p>
-            <button className="card-btn" onClick={toggleLikesContainer}>
+            <h5 className="card-label" onClick={toggleLikesContainer}>
               {likesAmount} Likes
-            </button>
+            </h5>
           </div>
         </div>
       </section>

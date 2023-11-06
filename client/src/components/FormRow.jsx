@@ -1,5 +1,5 @@
 import React from "react";
-const FormRow = ({ type, name, placeHolder, icon, onChange }) => {
+const FormRow = ({ type, name, placeHolder, icon, defaultValue, required }) => {
   return (
     <div className="form-row">
       {icon}
@@ -8,9 +8,9 @@ const FormRow = ({ type, name, placeHolder, icon, onChange }) => {
         id={name}
         name={name}
         className="form-input"
+        defaultValue={defaultValue || ""}
         placeholder={placeHolder}
-        onChange={onChange}
-        required
+        required={required !== undefined ? required : true}
       />
     </div>
   );

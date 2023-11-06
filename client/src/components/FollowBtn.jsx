@@ -4,7 +4,10 @@ import { followUser } from "../thunks/usersThunk";
 const FollowBtn = ({ targetUserId }) => {
   const dispatch = useDispatch();
   return (
-    <button className="btn" onClick={() => dispatch(followUser(targetUserId))}>
+    <button
+      className="white-btn"
+      onClick={() => dispatch(followUser(targetUserId))}
+    >
       Follow
     </button>
   );

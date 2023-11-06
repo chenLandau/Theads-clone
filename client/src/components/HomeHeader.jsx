@@ -1,25 +1,20 @@
-import React, { useState } from "react";
-import { FaThreads } from "react-icons/fa6";
+import React, { useEffect, useState } from "react";
 import Wrapper from "../assets/wrappers/Header";
 import { useDispatch } from "react-redux";
-import { setFollowingPosts, setForYouPosts } from "../features/post/postSlice";
-const HomeHeader = () => {
+import { setPosts } from "../features/post/postSlice";
+const HomeHeader = ({ followingPosts, forYouPosts }) => {
   const [isActive, setIsActive] = useState(true);
   const dispatch = useDispatch();
-  const getForYouPosts = () => {
+  useEffect(() => {
+    dispatch(setPosts({ posts: forYouPosts, displayMode: "home" }));
+  }, []);
+  const setForYouPosts = () => {
     setIsActive(true);
-    dispatch(setForYouPosts());
+    dispatch(setPosts({ posts: forYouPosts, displayMode: "home" }));
   };
-  const getFollowingPosts = () => {
+  const setFollowingPosts = () => {
     setIsActive(false);
-    dispatch(setFollowingPosts());
-
-    // try {
-    //   const { data } = await customFetch.get("./posts/following");
-    //   setPosts(data.posts);
-    // } catch (error) {
-    //   toast.error(error);
-    // }
+    dispatch(setPosts({ posts: followingPosts, displayMode: "home" }));
   };
   return (
     <Wrapper>
@@ -27,13 +22,13 @@ const HomeHeader = () => {
         <div className="header-btn-container">
           <button
             className={isActive ? "header-btn active" : "header-btn"}
-            onClick={getForYouPosts}
+            onClick={setForYouPosts}
           >
             For You
           </button>
           <button
             className={!isActive ? "header-btn active" : "header-btn"}
-            onClick={getFollowingPosts}
+            onClick={setFollowingPosts}
           >
             Following
           </button>

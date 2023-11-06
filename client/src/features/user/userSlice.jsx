@@ -23,12 +23,11 @@ const userSlice = createSlice({
       state.authorizedUserId = _id;
       state.FollowedByAuth = following;
     },
-    fetchProfile: (state, action) => {
-      const { user } = action.payload;
-      state.selectedUser = user;
+    setSelectedUser: (state, action) => {
+      state.selectedUser = action.payload;
     },
   },
 });
-export const { setUsers, updateAuthUser } = userSlice.actions;
+export const { setSelectedUser, updateAuthUser } = userSlice.actions;
 export const { actions } = userSlice;
 export default userSlice.reducer;

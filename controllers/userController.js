@@ -7,16 +7,25 @@ import {
   addUserActivity,
   getModifiedActivities,
 } from "../utils/activityUtils.js";
+import cloudinary from "cloudinary";
+import { promises as fs } from "fs";
 export const getCurrentUser = async (req, res) => {
   const user = await User.findOne({ _id: req.userId });
   const userWithoutPassword = user.toJSON();
   res.status(StatusCodes.OK).json({ user: userWithoutPassword });
 };
-export const updateUser = async (req, res) => {
-  const obj = { ...req.body };
-  delete obj.password;
-  const updatedUser = await User.findByIdAndUpdate(req.userId, obj);
-  res.status(StatusCodes.OK).json({ msg: "updated user" });
+export const editUserProfile = async (req, res) => {
+  const user = { ...req.body };
+  if (req.file) {
+    const response = await cloudinary.v2.uploader.upload(req.file.path);
+    await fs.unlink(req.file.path);
+    user.avatar = response.secure_url;
+    user.avatarPublicId = response.public_id;
+  }
+  const updatedUser = await User.findByIdAndUpdate(req.userId, user);
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "updated user", updatedUser: updatedUser });
 };
 
 const getFollowStatus = async (currentUser, targetUser) => {

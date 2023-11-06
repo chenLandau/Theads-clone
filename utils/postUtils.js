@@ -25,7 +25,6 @@ export const getModifiedPosts = async (posts, userId) => {
 
 export const getModifiedSinglePost = async (post, userId) => {
   const isLikedByUser = post.likes.includes(userId);
-  // const repliesWithInfo = await repliesWithUserInfo(post.replies);
   try {
     const user = await User.findById(post.createdBy);
     const isAuthorizedUser = userId === user._id.toString();
